@@ -1,8 +1,11 @@
-var path = require('path');
-var _ = require('lodash');
+import path from 'path';
+import _ from 'lodash';
 
 // TODO cleanup
-module.exports = function getImportPathsFromAST(ast, rootPath) {
+// TODO resolve imports from implicitly referenced index.js files.
+// TODO resolve referential exports: `export Component from './Component';`.
+
+export default function getImportPathsFromAST(ast, rootPath) {
   const imports = _.filter(ast.body, { type: 'ImportDeclaration'}) || [];
   const absolutePaths = _.compact(imports.map(o => {
     const parsedPath = path.parse(o.source.value);

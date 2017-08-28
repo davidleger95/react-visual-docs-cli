@@ -7,9 +7,8 @@ module.exports = function generateDependencyMap (docs) {
           source: docs[file].filePath,
           target: dependency.path,
           sourceType: docs[file].moduleType,
-          //TODO devlop more robust solution for matching key.
-          targetType: docs.hasOwnProperty(`${dependency.path.slice(1)}.js`) ?
-            docs[`${dependency.path.slice(1)}.js`].moduleType : dependency.moduleType || 'css',
+          targetType: docs.hasOwnProperty(dependency.path) ?
+            docs[dependency.path].moduleType : dependency.moduleType || 'css',
           sourceDisplayName: docs[file].displayName
         });
       });

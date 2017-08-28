@@ -8,34 +8,7 @@ const isMatchingFilePath = (curr, key) => {
     || `/${curr}` === `${key}.jsx`;
 }
 
-export default function resolveDependents(docs) {
-  let dependencyMap = [];
-  for (let file in docs) {
-    if (docs.hasOwnProperty(file)) {
-      docs[file].dependants = [];
-      docs[file].dependencies.forEach(dependency => {
-        if (dependency.moduleType !== 'nodeModule') {
-          const dependant = _.find(docs, o => isMatchingFilePath(o.filePath, dependency.path));
-          console.log(dependency, dependant, file, '\n\n\n');
-          if (dependant) {
-            if (!docs[dependant.filePath].dependants) docs[dependant.filePath].dependants = [];
-            docs[dependant.filePath].dependants = [
-              ...docs[dependant.filePath].dependants,
-              {
-                path: docs[file].filePath,
-                name: docs[file].displayName || docs[file].filePath,
-                moduleType: docs[file].moduleType
-              }
-            ];
-          }
-        }
-      });
-    }
-  }
-  return docs;
-}
-
-export function resolveDependents2 (docs) {
+export default function resolveDependents2 (docs) {
   let resolvedDocs = {}
   for (let key in docs) {
     if (docs.hasOwnProperty(key)) {
@@ -54,6 +27,7 @@ const resolveDependenciesToDependants = (docs, key) => {
     const dependencyKey = findDependencyNode(docs, dependency.path);
     dependencyNode = docs[dependencyKey];
     if (dependencyNode) {
+      dependency.path = dependencyKey;
       if (!dependencyNode.dependants) dependencyNode.dependants = [];
       dependencyNode.dependants = [
         ...dependencyNode.dependants,

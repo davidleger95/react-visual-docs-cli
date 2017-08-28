@@ -4,7 +4,7 @@ var reactDocs = require('react-docgen');
 import getAST from '../utils/getAST';
 import getImportPathsFromAST from '../utils/getImportPathsFromAST';
 import refactorImportPaths from '../utils/refactorImportPaths';
-import { resolveDependents2 } from './resolveDependents';
+import resolveDependents from './resolveDependents';
 
 let regeneratorRuntime = require("regenerator-runtime");
 
@@ -43,7 +43,7 @@ export default function generateDocumentation({ dir, ignore }) {
   };
 
   files.forEach(parseFile);
-  const newDocs = resolveDependents2(docs);
+  const newDocs = resolveDependents(docs);
 
   return newDocs;
 }
